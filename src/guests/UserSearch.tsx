@@ -1,18 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, InputHTMLAttributes, FC } from 'react'
 import { Button } from './Button'
-type SearchProps = {
+import { InputElement } from './InputElement'
+interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
   handleSearch: (term: string) => void
 }
-const UserSearch = ({ handleSearch }: SearchProps) => {
+const UserSearch: FC<SearchProps> = ({ handleSearch }) => {
   const [term, setTerm] = useState('')
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setTerm(e.target.value)
+  }
+
   console.log(term)
   return (
     <div>
-      <input
+      <InputElement
+        id='search'
+        label='Search Names'
         type='search'
         placeholder='search'
         value={term}
-        onChange={(e) => setTerm(e.target.value)}
+        onChange={handleChange}
       />
       <Button onClick={() => handleSearch(term)}>Search</Button>
     </div>
