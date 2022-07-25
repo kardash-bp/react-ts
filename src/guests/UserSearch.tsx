@@ -1,4 +1,10 @@
-import React, { useState, InputHTMLAttributes, FC } from 'react'
+import React, {
+  useState,
+  InputHTMLAttributes,
+  FC,
+  ChangeEvent,
+  MouseEvent,
+} from 'react'
 import { Button } from './Button'
 import { InputElement } from './InputElement'
 interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
@@ -7,10 +13,16 @@ interface SearchProps extends InputHTMLAttributes<HTMLInputElement> {
 const UserSearch: FC<SearchProps> = ({ handleSearch }) => {
   const [term, setTerm] = useState('')
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setTerm(e.target.value)
   }
-
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    console.log(event.target)
+    console.log(event.currentTarget)
+    if (term === '') return
+    handleSearch(term)
+    setTerm('')
+  }
   console.log(term)
   return (
     <div>
@@ -22,7 +34,7 @@ const UserSearch: FC<SearchProps> = ({ handleSearch }) => {
         value={term}
         onChange={handleChange}
       />
-      <Button onClick={() => handleSearch(term)}>Search</Button>
+      <Button onClick={handleClick}>Search</Button>
     </div>
   )
 }
